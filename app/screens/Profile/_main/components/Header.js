@@ -9,7 +9,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 const Header = ({ title = null, backIcon = null, }) => {
     const { navigate } = useNavigation();
     const getNotifigationScreen = () => {
-        navigate('Notifications')
+        navigate('Notifications');
     }
     return (
         <View style={styles.container}>

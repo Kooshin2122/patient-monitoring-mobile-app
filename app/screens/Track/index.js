@@ -108,11 +108,11 @@ const styles = StyleSheet.create({
         backgroundColor: COLORS.bg_primary
     },
     map: {
-        flex: 1
+        flex: 1,
     },
     bottomSheet: {
         flex: 0.5,
-        top: -20,
+        // top: -20,
         padding: "4%",
         position: "relative",
         borderTopLeftRadius: 25,

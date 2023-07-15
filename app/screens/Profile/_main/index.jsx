@@ -13,7 +13,7 @@ const { height } = Dimensions.get('window');
 const ProfileScreen = () => {
     //
     const { navigate } = useNavigation();
-    const { logingToggle, setLogingToggle } = useState(true);
+    const [logingToggle, setLogingToggle] = useState(false);
     //
     const navigateScreen = (navigationHook, screenName) => {
         navigationHook(screenName)
@@ -53,10 +53,11 @@ const ProfileScreen = () => {
                     <SettingCards
                         title="Logout"
                         iconName="log-out" iconBg="#FAB5B5"
+                        onClickHandler={() => setLogingToggle(true)}
                     />
                 </View>
             </ScrollView>
-            {logingToggle && <LogingModal logingToggle={logingToggle} />}
+            {logingToggle && <LogingModal hideModal={setLogingToggle} />}
         </SafeAreaView>
     )
 }

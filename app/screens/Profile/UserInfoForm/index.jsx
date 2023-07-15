@@ -4,7 +4,7 @@ import { Formik } from 'formik';
 import * as ImagePickers from 'expo-image-picker';
 import { LAY_OUT, COLORS } from '../../../theme/globalStyle';
 import { CustomBtn, CustomButton, Devider, ImageViewer, ListHeader, PaperTextInput, SubHeader } from '../../../components';
-import { Dimensions, KeyboardAvoidingView, Pressable, SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Dimensions, KeyboardAvoidingView, Pressable, SafeAreaView, ScrollView, StatusBar, StyleSheet, Text, View } from 'react-native';
 //
 // import TextField from 'react-native-ui-lib/textField';
 //
@@ -39,6 +39,7 @@ const UserInfoFormScreen = () => {
     //
     return (
         <SafeAreaView style={styles.mainContainer}>
+            <StatusBar backgroundColor={COLORS.primary_color} />
             <KeyboardAvoidingView
                 keyboardVerticalOffset={15}
                 behavior={Platform.OS == 'ios' ? 'padding' : null}

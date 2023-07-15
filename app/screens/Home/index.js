@@ -4,7 +4,7 @@ import { Devider, Header, ListHeader, VitalSignsCard } from '../../components';
 import { VitalBottomSheet } from './components';
 import Feather from 'react-native-vector-icons/Feather';
 import { COLORS, LAY_OUT } from '../../theme/globalStyle';
-import { FlatList, SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { FlatList, SafeAreaView, ScrollView, StatusBar, StyleSheet, Text, View } from 'react-native';
 import { Searchbar } from 'react-native-paper';
 import { categories, vitalSignsData } from '../../data';
 import CategoriesCard from './components/CategoriesCard';
@@ -16,10 +16,11 @@ const HomeScreen = () => {
     //
     return (
         <SafeAreaView style={styles.container}>
-            <Header />
+            <Header title="Dashboard" />
+            <StatusBar backgroundColor={COLORS.bg_primary} />
             {bottomSheetToggle && <VitalBottomSheet data={bottomSheetData} hideBottomSheet={setBottomSheetToggle} />}
             <ScrollView style={styles.scrollCon} showsVerticalScrollIndicator={false}>
-                <View style={{ backgroundColor: COLORS.bg_primary }}>
+                <View style={styles.heroSec}>
                     <Text style={styles.welcomeTxt}>
                         Welcome
                     </Text>
@@ -63,6 +64,11 @@ const styles = StyleSheet.create({
     scrollCon: {
         flex: 1,
         padding: LAY_OUT.padding,
+    },
+    heroSec: {
+        padding: "4%",
+        borderRadius: 7,
+        backgroundColor: COLORS.light_green_color,
     },
     welcomeTxt: {
         fontSize: 25,

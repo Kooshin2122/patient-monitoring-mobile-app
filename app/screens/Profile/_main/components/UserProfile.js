@@ -2,9 +2,9 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { COLORS } from '../../../../theme/globalStyle';
-import { Devider, ImageViewer } from '../../../../components';
+import { CustomButton, Devider, ImageViewer } from '../../../../components';
 //
-const UserProfile = () => {
+const UserProfile = ({ isUserLoging = false }) => {
     return (
         <View style={styles.profileCon}>
             <ImageViewer style={styles.imageViewCon} />

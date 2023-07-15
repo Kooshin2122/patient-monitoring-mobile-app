@@ -21,6 +21,7 @@ const ChangePasswordScreen = () => {
     //
     return (
         <SafeAreaView style={styles.mainContainer}>
+            <StatusBar backgroundColor={COLORS.primary_color} />
             <KeyboardAvoidingView
                 enabled
                 style={{ flex: 1 }}
