@@ -4,11 +4,19 @@ import { Devider } from '../../../../components';
 import { COLORS } from '../../../../theme/globalStyle';
 import Octicons from 'react-native-vector-icons/Octicons';
 import { Modal, Pressable, StyleSheet, Text, View } from 'react-native';
+import { removeData } from '../../../../utils/localStorage/AsyncStorage';
+import { useNavigation } from '@react-navigation/core';
+import { useAppContext } from '../../../../context';
 
 const LogingModal = ({ hideModal = () => { } }) => {
     //
-    const onLogout = () => {
-
+    const { navigate } = useNavigation();
+    const { isUserLogin, setIsUserLogin } = useAppContext();
+    //
+    const onLogout = async () => {
+        hideModal(false);
+        setIsUserLogin(false);
+        await removeData("token");
     }
     //
     return (

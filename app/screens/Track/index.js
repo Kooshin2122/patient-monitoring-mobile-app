@@ -38,8 +38,8 @@ const TrackingScreen = () => {
                 region={{
                     latitudeDelta: 0.0922,
                     longitudeDelta: 0.0421,
-                    latitude: location?.coords.latitude,
-                    longitude: location?.coords.longitude,
+                    latitude: location?.coords?.latitude,
+                    longitude: location?.coords?.longitude,
                 }}
             >
                 <Marker
@@ -47,8 +47,8 @@ const TrackingScreen = () => {
                     coordinate={{
                         latitudeDelta: 0.0922,
                         longitudeDelta: 0.0421,
-                        latitude: location?.coords.latitude,
-                        longitude: location?.coords.longitude,
+                        latitude: location?.coords?.latitude,
+                        longitude: location?.coords?.longitude,
                     }}
                 />
             </MapView>

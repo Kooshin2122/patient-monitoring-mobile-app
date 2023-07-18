@@ -1,12 +1,15 @@
 //
 import Root from './app/routes';
+import AppContext from './app/context';
 import { PaperProvider } from 'react-native-paper';
 import { StyleSheet, Text, View } from 'react-native';
 //
 export default function App() {
   return (
     <PaperProvider>
-      <Root />
+      <AppContext>
+        <Root />
+      </AppContext>
     </PaperProvider>
   );
 }

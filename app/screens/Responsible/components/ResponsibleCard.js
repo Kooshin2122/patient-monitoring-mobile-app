@@ -5,7 +5,7 @@ import Feather from 'react-native-vector-icons/Feather';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
 //
-const ResponsibleCard = ({ id, name, responsibleType, imageUri }) => {
+const ResponsibleCard = ({ id, name, accountType, tell, ResponsibleType, imageUri }) => {
     return (
         <View style={styles.container}>
             <View style={styles.imageCon}>
@@ -19,22 +19,22 @@ const ResponsibleCard = ({ id, name, responsibleType, imageUri }) => {
                 <Text style={styles.name}>
                     {name}
                 </Text>
-                <Text style={styles.responsible}>
-                    Responsible
+                <Text style={[styles.responsible, { textTransform: "capitalize" }]}>
+                    {accountType}
                 </Text>
                 <Text style={styles.responsible}>
-                    Mobile: 61-5-094-596
+                    Mobile: {tell}
                 </Text>
                 <View style={styles.controlsCon}>
                     <View style={styles.statusCon}>
                         <Text style={styles.statusTxt}>
-                            {responsibleType}
+                            {ResponsibleType}
                         </Text>
                     </View>
                     <View style={{ flexDirection: "row", alignItems: "center", columnGap: 10 }}>
-                        <Pressable>
+                        {/* <Pressable>
                             <Feather name="edit" size={23} color={"green"} />
-                        </Pressable>
+                        </Pressable> */}
                         <Pressable>
                             <AntDesign name="delete" size={23} color={"tomato"} />
                         </Pressable>
@@ -77,6 +77,7 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
         letterSpacing: 0.4,
         color: COLORS.black900,
+        textTransform: "capitalize"
     },
     responsible: {
         fontSize: 13,

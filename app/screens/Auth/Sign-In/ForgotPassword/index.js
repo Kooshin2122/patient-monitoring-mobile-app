@@ -2,15 +2,15 @@
 import React from 'react';
 import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
 //
-const SignInScreen = () => {
+const ForgotPasswordForm = () => {
     return (
         <SafeAreaView>
-            <Text>SignInScreen</Text>
+            <Text>ForgotPasswordForm</Text>
         </SafeAreaView>
     )
 }
 //
-export default SignInScreen;
+export default ForgotPasswordForm;
 //
 const styles = StyleSheet.create({});
 //

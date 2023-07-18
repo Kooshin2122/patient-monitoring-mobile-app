@@ -1,31 +1,53 @@
 //
-import React, { useState } from 'react';
-import { Devider, Header, ListHeader, VitalSignsCard } from '../../components';
+import React, { useEffect, useState } from 'react';
+import { Devider, Header, ListHeader, LoadingModal, VitalSignsCard } from '../../components';
 import { VitalBottomSheet } from './components';
 import Feather from 'react-native-vector-icons/Feather';
 import { COLORS, LAY_OUT } from '../../theme/globalStyle';
-import { FlatList, SafeAreaView, ScrollView, StatusBar, StyleSheet, Text, View } from 'react-native';
+import { FlatList, RefreshControl, SafeAreaView, ScrollView, StatusBar, StyleSheet, Text, View } from 'react-native';
 import { Searchbar } from 'react-native-paper';
 import { categories, vitalSignsData } from '../../data';
 import CategoriesCard from './components/CategoriesCard';
+import { fetchGetAuthData } from '../../API';
 //
 const HomeScreen = () => {
+    const [userInfo, setUserInfo] = useState();
+    const [refresh, setRefresh] = useState(true);
+    const [loading, setLoading] = useState(false);
+    const [bottomSheetData, setBottomSheetData] = useState({});
     const [selectCategory, setSelectCategory] = useState("Daily");
     const [bottomSheetToggle, setBottomSheetToggle] = useState(false);
-    const [bottomSheetData, setBottomSheetData] = useState({});
     //
+    const getUserInfoAsync = async () => {
+        // setLoading(true);
+        setRefresh(false);
+        const res = await fetchGetAuthData("api/patients/userProfile/");
+        console.log("response--------", res);
+        setUserInfo(res);
+        // setLoading(false);
+    }
+    //
+    useEffect(() => {
+        getUserInfoAsync();
+    }, [])
+    //
+    // console.log("userInfo?.name", userInfo?.name);
     return (
         <SafeAreaView style={styles.container}>
             <Header title="Dashboard" />
+            {/* {loading && <LoadingModal />} */}
             <StatusBar backgroundColor={COLORS.bg_primary} />
             {bottomSheetToggle && <VitalBottomSheet data={bottomSheetData} hideBottomSheet={setBottomSheetToggle} />}
-            <ScrollView style={styles.scrollCon} showsVerticalScrollIndicator={false}>
+            <ScrollView refreshControl={<RefreshControl refreshing={refresh} onRefresh={getUserInfoAsync} />} style={styles.scrollCon} showsVerticalScrollIndicator={false}>
                 <View style={styles.heroSec}>
                     <Text style={styles.welcomeTxt}>
                         Welcome
                     </Text>
                     <Text style={styles.userNameTxt}>
-                        Mohamed Hashi Ali
+                        {userInfo?.name}
+                    </Text>
+                    <Text style={styles.userNameTxt}>
+                        {userInfo?.accountType}
                     </Text>
                 </View>
                 <Devider height={17} />

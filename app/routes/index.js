@@ -1,12 +1,24 @@
 //
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import BotomTabs from './BottomNav';
-import { StatusBar, StyleSheet, Text, View } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
 import AuthStack from '../screens/Auth';
+import { NavigationContainer } from '@react-navigation/native';
+import { StatusBar, StyleSheet, Text, View } from 'react-native';
+import { readData } from '../utils/localStorage/AsyncStorage';
+import { useAppContext } from '../context';
 //
 const Root = () => {
-    const isUserLogin = true;
+    const { isUserLogin, setIsUserLogin } = useAppContext();
+    //
+    const getToken = async () => {
+        const token = await readData("token");
+        token ? setIsUserLogin(true) : setIsUserLogin(false);
+    }
+    //
+    useEffect(() => {
+        getToken();
+    }, []);
+    //
     return (
         <NavigationContainer>
             <StatusBar barStyle="dark-content" backgroundColor="#ffffff" />

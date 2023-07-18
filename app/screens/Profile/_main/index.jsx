@@ -1,5 +1,5 @@
 //
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 // import { navigateScreen } from './services';
 import { Devider } from '../../../components';
 import UserProfile from './components/UserProfile';
@@ -7,17 +7,33 @@ import { useNavigation } from '@react-navigation/core';
 import { LAY_OUT, COLORS } from '../../../theme/globalStyle';
 import { Header, LogingModal, SettingCards } from './components';
 import { Dimensions, SafeAreaView, ScrollView, StatusBar, StyleSheet, Text, View } from 'react-native';
+import { fetchGetAuthData } from '../../../API';
 //
 const { height } = Dimensions.get('window');
 //
 const ProfileScreen = () => {
     //
     const { navigate } = useNavigation();
+    const [userInfo, setUserInfo] = useState();
+    const [loading, setLoading] = useState(false);
     const [logingToggle, setLogingToggle] = useState(false);
     //
     const navigateScreen = (navigationHook, screenName) => {
         navigationHook(screenName)
     }
+    //
+    const getUserInfoAsync = async () => {
+        setLoading(true);
+        // setRefresh(false);
+        const res = await fetchGetAuthData("api/patients/userProfile/");
+        console.log("response--------", res);
+        setUserInfo(res);
+        setLoading(false);
+    }
+    //
+    useEffect(() => {
+        getUserInfoAsync();
+    }, [])
     //
     return (
         <SafeAreaView style={styles.mainContainer}>
@@ -26,18 +42,29 @@ const ProfileScreen = () => {
                 <View style={styles.head}>
                     <Header title="My Profile" />
                     <Devider />
-                    <UserProfile />
+                    <UserProfile
+                        name={userInfo?.name}
+                        mobile={userInfo?.tell}
+                    />
                 </View>
                 {/* Body */}
                 <View style={styles.body}>
                     <Devider height={23} />
-                    <View style={styles.statusCon}>
-                        <Text style={styles.statusTitle}>Status</Text>
-                        <View style={styles.status}>
-                            <Text style={styles.statusTxt}>Connected</Text>
-                        </View>
-                    </View>
+                    <UserInfoView
+                        title="Account Type"
+                        value={userInfo?.accountType}
+                    />
                     <Devider height={23} />
+                    {
+                        userInfo?.accountType == "PATIENT" &&
+                        <View>
+                            <UserInfoView
+                                title="Patient Id"
+                                value={userInfo?.patientID}
+                            />
+                            <Devider height={23} />
+                        </View>
+                    }
                     <SettingCards
                         title="Edit Profile"
                         iconName="edit" iconBg="#FAE8B5"
@@ -122,4 +149,15 @@ const styles = StyleSheet.create({
         backgroundColor: COLORS.primary_color
     }
 })
+//
+const UserInfoView = ({ title, value }) => {
+    return (
+        <View style={styles.statusCon}>
+            <Text style={styles.statusTitle}>{title}</Text>
+            <View style={styles.status}>
+                <Text style={styles.statusTxt}>{value}</Text>
+            </View>
+        </View>
+    )
+}
 //
