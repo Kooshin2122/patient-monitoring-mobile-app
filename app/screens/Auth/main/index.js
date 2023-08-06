@@ -20,9 +20,7 @@ const MainAuthScreen = () => {
             </Pressable>
             {/* Description */}
             <Text style={styles.description}>
-                Welcome Welcome Welcome Welcome Welcome Welcome
-                Welcome Welcome Welcome Welcome Welcome Welcome
-                Welcome Welcome Welcome
+
             </Text>
             {/* Description */}
         </SafeAreaView>

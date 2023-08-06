@@ -4,29 +4,18 @@ import { Formik } from 'formik';
 import * as ImagePickers from 'expo-image-picker';
 import { LAY_OUT, COLORS } from '../../../theme/globalStyle';
 import { CustomBtn, CustomButton, Devider, ImageViewer, ListHeader, PaperTextInput, SubHeader } from '../../../components';
-import { Dimensions, KeyboardAvoidingView, Pressable, SafeAreaView, ScrollView, StatusBar, StyleSheet, Text, View } from 'react-native';
+import { ActivityIndicator, Dimensions, KeyboardAvoidingView, Pressable, SafeAreaView, ScrollView, StatusBar, StyleSheet, Text, View } from 'react-native';
 import { fetchGetAuthData } from '../../../API';
 //
 // import TextField from 'react-native-ui-lib/textField';
 //
 const { height } = Dimensions.get('window');
 ///
-const UserInfoFormScreen = () => {
+const UserInfoFormScreen = ({ route }) => {
     //
-    const [patientInfo, setPatientInfo] = useState();
+    const { name, tell } = route.params.params;
     //
-    const getUserInfoAsync = async () => {
-        // setRefresh(false);
-        const res = await fetchGetAuthData("api/patients/userProfile/");
-        console.log("response--------", res);
-        setPatientInfo(res);
-    }
-    //
-    useEffect(() => {
-        getUserInfoAsync();
-    }, [])
-    //
-    const patientData = { name: '', tell: '', };
+    const patientData = { name: name, tell: tell, };
     const [selectedImage, setSelectedImage] = useState(null);
     //
     const pickImageAsync = async () => {
@@ -48,6 +37,7 @@ const UserInfoFormScreen = () => {
     }
     //
     const onSaveData = (values) => {
+        const newData = {}
         console.log(values);
     }
     //
@@ -89,20 +79,16 @@ const UserInfoFormScreen = () => {
                                     return (
                                         <View style={styles.formContainer}>
                                             <PaperTextInput
-                                                // label="Full Name"
-                                                // error={resError}
+                                                label="Full Name"
                                                 value={values.name}
                                                 placeholder="Full Name"
-                                                // defaultValue={patientInfo.name}
                                                 onChangeText={handleChange("name")}
                                             />
                                             <PaperTextInput
-                                                // label="Mobile Number"
-                                                // error={resError}
                                                 value={values.tell}
+                                                label="Mobile Number"
                                                 keyboardType="numeric"
                                                 placeholder="Mobile Number"
-                                                // defaultValue={patientInfo.tell}
                                                 onChangeText={handleChange("tell")}
                                             />
                                             <Pressable onPress={handleSubmit} style={styles.nextBtnCon}>

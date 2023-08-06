@@ -17,7 +17,7 @@ export const removeData = async (key) => {
     try {
         await AsyncStorage.removeItem(prefixKey + key)
     } catch (e) {
-        console.error(e)
+        console.error("-------------------- Not Removed -------------------------", e)
     }
 };
 //

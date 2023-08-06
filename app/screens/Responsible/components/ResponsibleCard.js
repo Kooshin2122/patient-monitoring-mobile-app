@@ -10,8 +10,8 @@ const ResponsibleCard = ({ id, name, accountType, tell, ResponsibleType, imageUr
         <View style={styles.container}>
             <View style={styles.imageCon}>
                 <Image
-                    resizeMode="cover"
-                    source={{ uri: imageUri }}
+                    resizeMode="contain"
+                    source={{ uri: `https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png` }}
                     style={{ width: "100%", height: "100%", borderRadius: 50 }}
                 />
             </View>

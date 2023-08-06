@@ -1,14 +1,19 @@
 //
 import React, { useEffect, useState } from 'react';
 import * as Location from 'expo-location';
+import { fetchGetAuthData } from '../../API';
 import { COLORS } from '../../theme/globalStyle';
 import { Header, Devider } from '../../components';
 import MapView, { Marker } from 'react-native-maps';
+import MapViewDirections from 'react-native-maps-directions';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
 //
 const TrackingScreen = () => {
-    const [location, setLocation] = useState();
+    //
+    const [patientInfo, setPatientInfo] = useState();
+    const [location, setLocation] = useState({ latitude: 0, longitude: 0 });
+    const [patientLocation, setPatientLocation] = useState({ latitude: 0, longitude: 0 });
     //
     const getPermisionAsync = async () => {
         try {
@@ -24,17 +29,36 @@ const TrackingScreen = () => {
         }
     }
     //
+    const getCurrentSensorData = async () => {
+        try {
+            const currentSensorData = await fetchGetAuthData(`api/patients/currentSensorData/responsible`)
+            const userData = await fetchGetAuthData("api/patients/userProfile/");
+            // console.log(userData);
+            setPatientInfo({ name: userData?.name, accountType: userData?.accountType });
+            setPatientLocation({
+                latitude: currentSensorData?.LATITUDE,
+                longitude: currentSensorData?.LONGITUDE,
+            });
+        } catch (error) {
+            console.log(`Error Happen in Tracker Screen ----> ${error}`);
+        }
+    };
+    const GOOGLE_MAPS_APIKEY = "AIzaSyCsJ_JBbomxUgMeWecFqNcOEk2g60NfKow"
+    //
     useEffect(() => {
         getPermisionAsync();
+        getCurrentSensorData();
     }, []);
     //
+    console.log("patientLocation ----------->", patientLocation);
+    console.log("location----------->", location?.coords?.latitude);
     return (
         <View style={styles.container}>
             {/* <Header title="Track" /> */}
             <MapView
+                zoomEnabled
                 style={styles.map}
                 mapType="satellite"
-                zoomEnabled
                 region={{
                     latitudeDelta: 0.0922,
                     longitudeDelta: 0.0421,
@@ -43,14 +67,26 @@ const TrackingScreen = () => {
                 }}
             >
                 <Marker
-                    title="Maker"
+                    title="You"
                     coordinate={{
-                        latitudeDelta: 0.0922,
-                        longitudeDelta: 0.0421,
                         latitude: location?.coords?.latitude,
                         longitude: location?.coords?.longitude,
                     }}
                 />
+                {
+                    patientInfo?.accountType == "RESPONSIBLE" &&
+                    <Marker title="Patient" coordinate={patientLocation} />
+                }
+                {
+                    patientInfo?.accountType == "RESPONSIBLE" && patientLocation.latitude > 0 &&
+                    <MapViewDirections
+                        origin={{ latitude: location?.coords?.latitude, longitude: location?.coords?.longitude, }}
+                        destination={patientLocation}
+                        apikey={GOOGLE_MAPS_APIKEY}
+                        strokeColor="#fe2c55"
+                        strokeWidth={3}
+                    />
+                }
             </MapView>
             <View style={styles.bottomSheet}>
                 <Text style={styles.title}>

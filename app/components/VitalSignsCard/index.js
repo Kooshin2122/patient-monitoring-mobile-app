@@ -8,11 +8,11 @@ const VitalSignsCard = ({ id, vitalSignName, category, measure, status, imageUrl
     //
     const [cardColor, serCardColor] = useState("#2b42a5");
     const getCardColor = (status) => {
-        if (status == "high")
+        if (status == "High")
             serCardColor("#d00d0d")
-        else if (status == "medium")
+        else if (status == "Normal")
             serCardColor("#feb407")
-        else if (status == "good")
+        else if (status == "Low")
             serCardColor("#2b42a5")
     }
     const showBottomSheet = () => {
@@ -22,7 +22,8 @@ const VitalSignsCard = ({ id, vitalSignName, category, measure, status, imageUrl
     //
     useEffect(() => {
         getCardColor(status)
-    }, [])
+    }, [status])
+    const data = parseInt(measure, 10)
     //
     return (
         <Pressable onPress={showBottomSheet} style={styles.container}>
@@ -43,7 +44,7 @@ const VitalSignsCard = ({ id, vitalSignName, category, measure, status, imageUrl
                             {vitalSignName}
                         </Text>
                         <Text style={styles.categoryTxt}>
-                            Last {category}
+                            {category} Report
                         </Text>
                     </View>
                     <AntDesign name="right" size={20} color={COLORS.black700} />
@@ -51,7 +52,7 @@ const VitalSignsCard = ({ id, vitalSignName, category, measure, status, imageUrl
                 {/* status and measurement container */}
                 <View style={styles.rowCon}>
                     <Text style={[styles.measureTxt, { color: cardColor }]}>
-                        {measure}
+                        {data}
                     </Text>
                     <View style={[styles.statusCard, { backgroundColor: cardColor }]}>
                         <Text style={styles.statusTxt}>
@@ -123,7 +124,8 @@ const styles = StyleSheet.create({
         fontSize: 11,
         fontWeight: "bold",
         letterSpacing: 0.8,
-        color: COLORS.bg_primary
+        color: COLORS.bg_primary,
+        textTransform: "capitalize",
     }
 })
 //

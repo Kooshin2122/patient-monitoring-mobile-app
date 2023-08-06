@@ -23,10 +23,9 @@ const PatientForm = () => {
         try {
             setLoading(true);
             const res = await fetchPostData("api/auth/patient/sign-in/", values, setErrorMessage);
-            console.log("respnse----->", res);
             setLoading(false);
-            if (res.accessToken) {
-                console.log("get---------=======---------");
+            // console.log("respnse user ----->", res);
+            if (res?.accessToken) {
                 setIsUserLogin(true);
                 await storeData("token", res.accessToken);
             }

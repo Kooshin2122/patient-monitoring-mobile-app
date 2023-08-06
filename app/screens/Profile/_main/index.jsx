@@ -68,7 +68,7 @@ const ProfileScreen = () => {
                     <SettingCards
                         title="Edit Profile"
                         iconName="edit" iconBg="#FAE8B5"
-                        onClickHandler={() => navigate("UserForm")}
+                        onClickHandler={() => navigate("UserForm", { params: userInfo })}
                     />
                     <Devider height={23} />
                     <SettingCards

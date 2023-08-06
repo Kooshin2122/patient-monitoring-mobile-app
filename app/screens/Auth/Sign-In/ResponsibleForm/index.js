@@ -20,11 +20,11 @@ const ResponsibleForm = () => {
     const ResponsibleInformation = { email: '', patientID: '' }
     //
     const onLogin = async (values) => {
-        console.log("values-------->", values);
+        // console.log("values-------->", values);
         try {
             setLoading(true);
             const res = await fetchPostData("api/auth/responsible/sign-in", values, setErrorMessage);
-            console.log("respnse----->", res);
+            console.log("respnse sign in ----->", res);
             setLoading(false);
             if (res.accessToken) {
                 setIsUserLogin(true);
@@ -65,7 +65,7 @@ const ResponsibleForm = () => {
                                         </Text>
                                         <Devider />
                                         <PaperTextInput
-                                            label="UserName"
+                                            label="Email"
                                             error={errorMessage}
                                             placeholder="(email)"
                                             value={values.email}
