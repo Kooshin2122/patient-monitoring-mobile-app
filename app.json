@@ -33,7 +33,7 @@
         "android.permission.ACCESS_FINE_LOCATION",
         "android.permission.FOREGROUND_SERVICE"
       ],
-      "package": "com.maanka2122.Patientmonitoring"
+      "package": "com.maanka2122.PatientmonitoringApp"
     },
     "web": {
       "favicon": "./assets/favicon.png"

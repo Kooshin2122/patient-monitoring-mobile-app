@@ -22,6 +22,26 @@ export const fetchPostData = async (endPoint = "", postData, setError = () => { 
         // setError(error);
     }
 };
+export const fetchPostAuthData = async (endPoint = "", postData, setError = () => { }) => {
+    setError(false);
+    const accessToken = await readData("token");
+    // console.log("access token ---> ", postData);
+    try {
+        const res = await fetch(`${BASE_URL}${endPoint}`, {
+            method: "put",
+            headers: { authorization: `${accessToken}`, 'Content-Type': 'application/json' },
+            body: JSON.stringify(postData),
+        });
+        const data = await res.json();
+        // console.log(`response -------->`, data);
+        if (data?.success == false)
+            setError(data.message)
+        return data;
+    } catch (error) {
+        console.log('Error happen when updating FCM Token in API folder', error);
+        // setError(error);
+    }
+};
 //
 export const fetchGetAuthData = async (endPoint = "") => {
     //

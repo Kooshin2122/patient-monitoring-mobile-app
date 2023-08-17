@@ -17,12 +17,12 @@ const SubHeader = ({ title = "Title", }) => {
                     // style={{ backgroundColor: "blue" }}
                     color="#ffffff" onPress={() => navigation.pop()}
                 />
-                <Pressable style={styles.whistleIconCon} onPress={() => navigation.navigate('Notifications')} >
+                {/* <Pressable style={styles.whistleIconCon} onPress={() => navigation.navigate('Notifications')} >
                     <Badge size={17} style={styles.badge} >
                         3
                     </Badge>
                     <MaterialCommunityIcons name="whistle-outline" size={30} color="#ffffff" style={styles.icon} />
-                </Pressable>
+                </Pressable> */}
             </View>
             <Devider />
             <Text style={styles.title}>

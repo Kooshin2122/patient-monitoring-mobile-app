@@ -12,6 +12,7 @@ import { storeData } from '../../../../utils/localStorage/AsyncStorage';
 import { useAppContext } from '../../../../context';
 //
 const PatientForm = () => {
+    //
     const { navigate } = useNavigation();
     const [loading, setLoading] = useState(false);
     const [eyeToggle, setEyeToggle] = useState(false);

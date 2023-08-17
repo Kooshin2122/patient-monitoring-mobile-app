@@ -1,49 +1,71 @@
 {
   "project_info": {
-    "project_number": "118932603631",
-    "project_id": "patient-monitering-app",
-    "storage_bucket": "patient-monitering-app.appspot.com"
+    "project_number": "463849523091",
+    "firebase_url": "https://testesp32-fb1ee-default-rtdb.firebaseio.com",
+    "project_id": "testesp32-fb1ee",
+    "storage_bucket": "testesp32-fb1ee.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:118932603631:android:3393432cf8d9bf9ab4111a",
+        "mobilesdk_app_id": "1:463849523091:android:f959c6d87c69a7c6bb0a66",
         "android_client_info": {
           "package_name": "com.maanka2122.Patientmonitoring"
         }
       },
       "oauth_client": [
         {
-          "client_id": "118932603631-2vg5b7skqlorskndpvb1kttqqk3o2aq7.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.maanka2122.Patientmonitoring",
-            "certificate_hash": "1614d8126a849e2c7adcf31a27369abbcf4286c4"
-          }
-        },
-        {
-          "client_id": "118932603631-uu4vua8e8i35fm54qvr42979cotdhcpg.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.maanka2122.Patientmonitoring",
-            "certificate_hash": "0f2161f426f953aac330383379509d67c47cbe98"
-          }
-        },
-        {
-          "client_id": "118932603631-f7f36r8v9l98s3g0ck98fm8t22vhj95r.apps.googleusercontent.com",
+          "client_id": "463849523091-8qo4c319sdfutrr9u18411nsgpfnggdv.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDYcdSbRKHDN-dqxs6i9WKRz7qTe2ywGfU"
+          "current_key": "AIzaSyBKijUC9ZN-QmDd14GV8DeFbTtwhI2jWoo"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "118932603631-f7f36r8v9l98s3g0ck98fm8t22vhj95r.apps.googleusercontent.com",
+              "client_id": "463849523091-8qo4c319sdfutrr9u18411nsgpfnggdv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:463849523091:android:2a637686935df1a3bb0a66",
+        "android_client_info": {
+          "package_name": "com.maanka2122.PatientmonitoringApp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "463849523091-tjr44saulp5v54rcsdpn3vvcrpilomki.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.maanka2122.PatientmonitoringApp",
+            "certificate_hash": "b630690bf92b706966d35b724df086a6727753bc"
+          }
+        },
+        {
+          "client_id": "463849523091-8qo4c319sdfutrr9u18411nsgpfnggdv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBKijUC9ZN-QmDd14GV8DeFbTtwhI2jWoo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "463849523091-8qo4c319sdfutrr9u18411nsgpfnggdv.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

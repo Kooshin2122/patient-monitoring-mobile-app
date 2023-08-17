@@ -1,5 +1,5 @@
 //
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import * as Location from 'expo-location';
 import { fetchGetAuthData } from '../../API';
 import { COLORS } from '../../theme/globalStyle';
@@ -8,12 +8,13 @@ import MapView, { Marker } from 'react-native-maps';
 import MapViewDirections from 'react-native-maps-directions';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
+import { useFocusEffect } from '@react-navigation/core';
 //
 const TrackingScreen = () => {
     //
+    const [location, setLocation] = useState();
     const [patientInfo, setPatientInfo] = useState();
-    const [location, setLocation] = useState({ latitude: 0, longitude: 0 });
-    const [patientLocation, setPatientLocation] = useState({ latitude: 0, longitude: 0 });
+    const [patientLocation, setPatientLocation] = useState();
     //
     const getPermisionAsync = async () => {
         try {
@@ -23,6 +24,7 @@ const TrackingScreen = () => {
                 return;
             }
             let location = await Location.getCurrentPositionAsync({});
+            // console.log("Location----------", location);
             setLocation(location);
         } catch (error) {
             console.log("error happen when getting permision in the expo");
@@ -31,69 +33,98 @@ const TrackingScreen = () => {
     //
     const getCurrentSensorData = async () => {
         try {
-            const currentSensorData = await fetchGetAuthData(`api/patients/currentSensorData/responsible`)
             const userData = await fetchGetAuthData("api/patients/userProfile/");
+            if (userData?.accountType == "RESPONSIBLE") {
+                const currentSensorData = await fetchGetAuthData(`api/patients/currentSensorData/responsible`)
+                setPatientLocation({
+                    latitude: Number(currentSensorData?.LATITUDE),
+                    longitude: Number(currentSensorData?.LONGITUDE),
+                });
+            }
             // console.log(userData);
             setPatientInfo({ name: userData?.name, accountType: userData?.accountType });
-            setPatientLocation({
-                latitude: currentSensorData?.LATITUDE,
-                longitude: currentSensorData?.LONGITUDE,
-            });
         } catch (error) {
             console.log(`Error Happen in Tracker Screen ----> ${error}`);
         }
     };
     const GOOGLE_MAPS_APIKEY = "AIzaSyCsJ_JBbomxUgMeWecFqNcOEk2g60NfKow"
     //
-    useEffect(() => {
+    useFocusEffect(useCallback(() => {
         getPermisionAsync();
         getCurrentSensorData();
-    }, []);
+    }, []))
     //
-    console.log("patientLocation ----------->", patientLocation);
-    console.log("location----------->", location?.coords?.latitude);
+    let bo = false
+    // console.log("patientLocation ----------->", {
+    //     latitude: patientLocation.latitude,
+    //     longitude: patientLocation.longitude,
+    //     latitudeDelta: 0.0922,
+    //     longitudeDelta: 0.0421,
+    // });
+    // console.log("type----------->", typeof patientLocation.latitude);
+    // console.log("location----------->", location);
     return (
         <View style={styles.container}>
             {/* <Header title="Track" /> */}
-            <MapView
-                zoomEnabled
-                style={styles.map}
-                mapType="satellite"
-                region={{
-                    latitudeDelta: 0.0922,
-                    longitudeDelta: 0.0421,
-                    latitude: location?.coords?.latitude,
-                    longitude: location?.coords?.longitude,
-                }}
-            >
-                <Marker
-                    title="You"
-                    coordinate={{
+            {
+                location &&
+                <MapView
+                    zoomEnabled
+                    style={styles.map}
+                    mapType="hybrid"
+
+                    initialRegion={{
+                        latitude: 37.78825,
+                        longitude: -122.4324,
+                        latitudeDelta: 0.0922,
+                        longitudeDelta: 0.0421,
+                    }}
+                    region={{
                         latitude: location?.coords?.latitude,
                         longitude: location?.coords?.longitude,
+                        latitudeDelta: 0.0922,
+                        longitudeDelta: 0.0421,
                     }}
-                />
-                {
-                    patientInfo?.accountType == "RESPONSIBLE" &&
-                    <Marker title="Patient" coordinate={patientLocation} />
-                }
-                {
-                    patientInfo?.accountType == "RESPONSIBLE" && patientLocation.latitude > 0 &&
-                    <MapViewDirections
-                        origin={{ latitude: location?.coords?.latitude, longitude: location?.coords?.longitude, }}
-                        destination={patientLocation}
-                        apikey={GOOGLE_MAPS_APIKEY}
-                        strokeColor="#fe2c55"
-                        strokeWidth={3}
+                >
+                    <Marker
+                        title="You"
+                        pinColor={"blue"}
+                        coordinate={{
+                            latitude: location?.coords?.latitude,
+                            longitude: location?.coords?.longitude,
+                            latitudeDelta: 0.0922,
+                            longitudeDelta: 0.0421,
+                        }}
                     />
-                }
-            </MapView>
+                    {
+                        patientInfo?.accountType == "RESPONSIBLE" && patientLocation &&
+                        <Marker
+                            title="Patient"
+                            coordinate={{
+                                latitude: patientLocation.latitude,
+                                longitude: patientLocation.longitude,
+                                latitudeDelta: 0.0922,
+                                longitudeDelta: 0.0421,
+                            }} />
+                    }
+                    {
+                        patientInfo?.accountType == "RESPONSIBLE" && patientLocation &&
+                        <MapViewDirections
+                            origin={{ latitude: location?.coords?.latitude, longitude: location?.coords?.longitude }}
+                            destination={patientLocation}
+                            apikey={GOOGLE_MAPS_APIKEY}
+                            strokeColor="#fe2c55"
+                            strokeWidth={3}
+                        />
+                    }
+                </MapView>
+            }
             <View style={styles.bottomSheet}>
                 <Text style={styles.title}>
                     Somalia,Mogadishu,Banaadir
                 </Text>
-                <Devider height={25} />
-                <View style={styles.contentCon}>
+                <Devider height={10} />
+                {/* <View style={styles.contentCon}>
                     <View style={{ rowGap: 5 }}>
                         <Text style={styles.conTitle}>
                             GLEN PARK
@@ -107,8 +138,8 @@ const TrackingScreen = () => {
                             Risk
                     </Text>
                     </View>
-                </View>
-                <Devider />
+                </View> */}
+                {/* <Devider />
                 <View style={styles.contentCon}>
                     <View style={{ flexDirection: "row", alignItems: "center", columnGap: 10 }}>
                         <View style={styles.iconCon}>
@@ -126,8 +157,8 @@ const TrackingScreen = () => {
                             200 minit
                         </Text>
                     </View>
-                </View>
-                <Devider height={25} />
+                </View> */}
+                <Devider height={5} />
                 <View style={styles.phoneCon}>
                     <MaterialIcons name="call" size={33} color="#ffffff" />
                 </View>
@@ -147,7 +178,7 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     bottomSheet: {
-        flex: 0.5,
+        flex: 0.2,
         // top: -20,
         padding: "4%",
         position: "relative",

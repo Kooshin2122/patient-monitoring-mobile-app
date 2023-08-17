@@ -10,6 +10,7 @@ const PaperTextInput = (props) => {
             style={[styles.container]}
             {...props}
             mode="outlined"
+            textColor="black"
             outlineColor={COLORS.black_color}
             selectionColor={COLORS.primary_color}
             activeOutlineColor={COLORS.primary_color}

@@ -14,7 +14,7 @@ const CategoriesCard = ({ id, categoryName, selectedCard, setSelectedCard = () =
             if (categoryName == "Daily") {
                 if (res?.accountType == "PATIENT") {
                     const currentSensorData = await fetchGetAuthData(`api/patients/currentSensorData/patient`)
-                    console.log("Daily------", currentSensorData);
+                    // console.log("Daily------", currentSensorData);
                     changeCategoriesData(currentSensorData);
                 }
                 else if (res?.accountType == "RESPONSIBLE") {

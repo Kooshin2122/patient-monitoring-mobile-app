@@ -25,12 +25,12 @@ const Header = ({ title = null, backIcon = null, }) => {
                         style={{ width: 90, height: 45 }}
                     />
             }
-            <Pressable style={styles.iconCon} onPress={getNotifigationScreen} >
+            {/* <Pressable style={styles.iconCon} onPress={getNotifigationScreen} >
                 <Badge size={17} style={styles.badge} >
                     3
                 </Badge>
                 <MaterialCommunityIcons name="whistle-outline" size={30} color="#ffffff" style={styles.icon} />
-            </Pressable>
+            </Pressable> */}
         </View>
     )
 }
