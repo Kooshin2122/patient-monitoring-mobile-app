@@ -7,16 +7,40 @@ import Octicons from 'react-native-vector-icons/Octicons';
 import { CustomButton, PaperTextInput, Devider, SubHeader, } from '../../../components';
 import { Image, KeyboardAvoidingView, Platform, Pressable, SafeAreaView, ScrollView, StatusBar, StyleSheet, Text, View } from 'react-native';
 import { COLORS, LAY_OUT } from '../../../theme/globalStyle';
+import { UpdateData } from '../../../API';
 //
-const ChangePasswordScreen = () => {
-    const { navigate } = useNavigation();
+const ChangePasswordScreen = ({ route }) => {
+    //
+    const { navigate, goBack } = useNavigation();
+    const userInfo = route?.params?.params;
+    // console.log("userInfo.......", userInfo);
     const [loading, setLoading] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
     const [eyeToggle, setEyeToggle] = useState(false);
-    const passwordValue = { old_password: '', new_password: '', confirmNewPassword: '' }
+    const passwordValue = { old_password: '', password: '', confirmNewPassword: '' }
     //
     const onSavePassword = async (values) => {
-
+        setErrorMessage(false)
+        if (values.password !== values.confirmNewPassword) {
+            setErrorMessage('confirm your newPassword')
+            return
+        }
+        if (userInfo.password !== values.old_password) {
+            setErrorMessage('confirm your old password')
+            return
+        }
+        try {
+            if (userInfo.accountType == "PATIENT") {
+                const id = userInfo?.patientID
+                const payload = { password: values.password }
+                const res = await UpdateData(`api/patients/password/${id}`, payload);
+                console.log("res------,,,,,,.......,,,,,-----", res);
+                if (res?.accountType)
+                    goBack()
+            }
+        } catch (error) {
+            console.log(`error happen when changing password ${error}`);
+        }
     }
     //
     return (
@@ -58,9 +82,9 @@ const ChangePasswordScreen = () => {
                                         <PaperTextInput
                                             label="New Password"
                                             error={errorMessage}
+                                            value={values.password}
                                             placeholder="New Password"
-                                            value={values.new_password}
-                                            onChangeText={handleChange("new_password")}
+                                            onChangeText={handleChange("password")}
                                             secureTextEntry={eyeToggle ? false : true}
                                             right={<TextInput.Icon onPress={() => setEyeToggle(!eyeToggle)} icon={eyeToggle ? "eye" : "eye-off"} />}
                                         />
@@ -82,7 +106,7 @@ const ChangePasswordScreen = () => {
                                                 </Text>
                                             </View>
                                         }
-                                        <CustomButton clickHandler={handleSubmit} title="Save" />
+                                        <CustomButton onClickHandler={handleSubmit} title="Save" />
                                     </View>
                                 )
                             }}

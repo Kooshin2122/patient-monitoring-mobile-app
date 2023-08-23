@@ -10,6 +10,7 @@ import { fetchPostData, fetchPostAuthData } from './app/API';
 import { useFocusEffect } from '@react-navigation/core';
 import PushNotification from 'react-native-push-notification';
 import Modal from 'react-native-modal';
+import { Devider } from './app/components';
 //
 
 // Initialize the notification library
@@ -52,18 +53,6 @@ export default function App() {
     }
   }
   //
-  const handleInitialNotification = async () => {
-    try {
-      const remoteMessage = await messaging().getInitialNotification();
-      console.log("remoteMessage---------->", remoteMessage);
-      if (remoteMessage) {
-        console.log("title---------->", remoteMessage?.notification?.title);
-      }
-    } catch (error) {
-      console.error('Error handling initial notification:', error);
-    }
-  };
-  //
   useEffect(() => {
     if (requestUserPermission()) {
       messaging().getToken().then(token => {
@@ -71,7 +60,7 @@ export default function App() {
         try {
           const payload = { deviceToken: token }
           fetchPostAuthData('api/patients/deviceToken/', payload)
-          // .then(res => console.log("FCM Token STATUS ------------>", res));
+            .then(res => console.log("FCM Token STATUS ------------>", res));
         } catch (error) {
           console.log("Error happen when updating FCM Token in App.js");
         }
@@ -86,7 +75,7 @@ export default function App() {
     messaging()
       .getInitialNotification()
       .then((remoteMessage) => {
-        console.log("remoteMessage---------->", remoteMessage);
+        // console.log("remoteMessage---------->", remoteMessage);
         if (remoteMessage) {
           console.log(remoteMessage);
         }
@@ -155,8 +144,11 @@ const NotificationCard = ({ isVisible, notification, onClose }) => {
       <View style={{ backgroundColor: 'white', padding: 20 }}>
         <Text style={{ fontWeight: 'bold', fontSize: 18 }}>{notification.title}</Text>
         <Text>{notification.body}</Text>
+        <Devider />
         <TouchableOpacity onPress={onClose}>
-          <Text>Close</Text>
+          <Text style={{ fontSize: 14, fontWeight: "500", color: "red", textAlign: "center" }} >
+            Close
+            </Text>
         </TouchableOpacity>
       </View>
     </Modal>

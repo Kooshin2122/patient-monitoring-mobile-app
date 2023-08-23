@@ -4,8 +4,20 @@ import { COLORS } from '../../../theme/globalStyle';
 import Feather from 'react-native-vector-icons/Feather';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
+import { deleteItem } from '../../../API';
 //
-const ResponsibleCard = ({ id, name, accountType, tell, ResponsibleType, imageUri }) => {
+const ResponsibleCard = ({ id, name, accountType, tell, ResponsibleType, imageUri, reload = () => { } }) => {
+    //
+    const onDeleteResponsible = async () => {
+        try {
+            const response = await deleteItem(`api/responsibles/${id}`)
+            console.log("response,,,,,,..........,,,,,,,", response);
+            reload()
+        } catch (error) {
+            console.log(`error happen when deleting responsible ------- ${error}`);
+        }
+    }
+    //
     return (
         <View style={styles.container}>
             <View style={styles.imageCon}>
@@ -35,7 +47,7 @@ const ResponsibleCard = ({ id, name, accountType, tell, ResponsibleType, imageUr
                         {/* <Pressable>
                             <Feather name="edit" size={23} color={"green"} />
                         </Pressable> */}
-                        <Pressable>
+                        <Pressable onPress={onDeleteResponsible}>
                             <AntDesign name="delete" size={23} color={"tomato"} />
                         </Pressable>
                     </View>

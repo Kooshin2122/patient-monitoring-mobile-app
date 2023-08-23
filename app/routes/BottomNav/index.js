@@ -7,7 +7,7 @@ import Feather from 'react-native-vector-icons/Feather'
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 // screens
-import { HomeScreen, TrackingScreen, ResponsibleScreen, ProfileStack, } from '../../screens';
+import { HomeScreen, TrackingScreen, ResponsibleScreen, ProfileStack, NotificationsStack } from '../../screens';
 //
 const Tab = createBottomTabNavigator();
 //
@@ -49,6 +49,14 @@ const BotomTabs = () => {
                     tabBarLabel: 'Responsible',
                     tabBarIcon: ({ color, size }) => (
                         <FontAwesome5 name="users" color={color} size={20} />
+                    ),
+                }}
+            />
+            <Tab.Screen name="NotificationsStack" component={NotificationsStack}
+                options={{
+                    tabBarLabel: 'Notifications',
+                    tabBarIcon: ({ color, size }) => (
+                        <MaterialCommunityIcons name="bell" color={color} size={23} />
                     ),
                 }}
             />

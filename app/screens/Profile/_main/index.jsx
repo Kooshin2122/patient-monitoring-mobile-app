@@ -1,9 +1,9 @@
 //
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 // import { navigateScreen } from './services';
 import { Devider } from '../../../components';
 import UserProfile from './components/UserProfile';
-import { useNavigation } from '@react-navigation/core';
+import { useFocusEffect, useNavigation } from '@react-navigation/core';
 import { LAY_OUT, COLORS } from '../../../theme/globalStyle';
 import { Header, LogingModal, SettingCards } from './components';
 import { Dimensions, SafeAreaView, ScrollView, StatusBar, StyleSheet, Text, View } from 'react-native';
@@ -31,9 +31,9 @@ const ProfileScreen = () => {
         setLoading(false);
     }
     //
-    useEffect(() => {
+    useFocusEffect(useCallback(() => {
         getUserInfoAsync();
-    }, [])
+    }, []))
     //
     return (
         <SafeAreaView style={styles.mainContainer}>
@@ -70,12 +70,18 @@ const ProfileScreen = () => {
                         iconName="edit" iconBg="#FAE8B5"
                         onClickHandler={() => navigate("UserForm", { params: userInfo })}
                     />
-                    <Devider height={23} />
-                    <SettingCards
-                        title="Change Password"
-                        onClickHandler={() => navigate("ChangePassword")}
-                        iconName="unlock" iconBg={COLORS.light_green_color}
-                    />
+
+                    {
+                        userInfo?.accountType !== "RESPONSIBLE" &&
+                        <View>
+                            <Devider height={23} />
+                            <SettingCards
+                                title="Change Password"
+                                onClickHandler={() => navigate("ChangePassword", { params: userInfo })}
+                                iconName="unlock" iconBg={COLORS.light_green_color}
+                            />
+                        </View>
+                    }
                     <Devider height={23} />
                     <SettingCards
                         title="Logout"

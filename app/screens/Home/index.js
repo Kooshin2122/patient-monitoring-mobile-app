@@ -30,7 +30,7 @@ const HomeScreen = () => {
             setLoading(true);
             const res = await fetchGetAuthData("api/patients/userProfile/");
             setLoading(false);
-            // console.log("user profile--------", res);
+            console.log("user profile--------", res);
             setUserInfo(res);
         } catch (error) {
             setLoading(false);

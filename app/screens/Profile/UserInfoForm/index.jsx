@@ -5,7 +5,8 @@ import * as ImagePickers from 'expo-image-picker';
 import { LAY_OUT, COLORS } from '../../../theme/globalStyle';
 import { CustomBtn, CustomButton, Devider, ImageViewer, ListHeader, PaperTextInput, SubHeader } from '../../../components';
 import { ActivityIndicator, Dimensions, KeyboardAvoidingView, Pressable, SafeAreaView, ScrollView, StatusBar, StyleSheet, Text, View } from 'react-native';
-import { fetchGetAuthData } from '../../../API';
+import { UpdateData } from '../../../API';
+import { useNavigation } from '@react-navigation/core';
 //
 // import TextField from 'react-native-ui-lib/textField';
 //
@@ -13,7 +14,10 @@ const { height } = Dimensions.get('window');
 ///
 const UserInfoFormScreen = ({ route }) => {
     //
-    const { name, tell } = route.params.params;
+    const { goBack } = useNavigation();
+    const userInfo = route?.params?.params;
+    // console.log("userInfo........,,,,,......", userInfo);
+    const { name, tell } = route?.params?.params;
     //
     const patientData = { name: name, tell: tell, };
     const [selectedImage, setSelectedImage] = useState(null);
@@ -36,9 +40,25 @@ const UserInfoFormScreen = ({ route }) => {
         pickImageAsync()
     }
     //
-    const onSaveData = (values) => {
-        const newData = {}
-        console.log(values);
+    const onSaveData = async (values) => {
+        try {
+            if (userInfo.accountType == "PATIENT") {
+                const id = userInfo?.patientID
+                const res = await UpdateData(`api/patients/${id}`, values);
+                console.log("res------,,,,,,.......,,,,,-----", res);
+                if (res.accountType == "PATIENT")
+                    goBack()
+            }
+            else if (userInfo.accountType == "RESPONSIBLE") {
+                const id = userInfo?.id
+                const res = await UpdateData(`api/responsibles/${id}`, values);
+                console.log("res------,,,,,,.......,,,,,-----", res);
+                if (res.accountType == "RESPONSIBLE")
+                    goBack()
+            }
+        } catch (error) {
+            console.log(`error happen when updating user info ${error}`);
+        }
     }
     //
     return (

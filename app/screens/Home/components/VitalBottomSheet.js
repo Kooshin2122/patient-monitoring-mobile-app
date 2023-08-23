@@ -3,11 +3,9 @@ import React, { useEffect, useState } from 'react';
 import { Devider } from '../../../components';
 import { COLORS } from '../../../theme/globalStyle';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import { VictoryPie } from "victory-native";
 import { Button, FlatList, Modal, Pressable, StyleSheet, Text, View } from 'react-native';
 import { fetchGetAuthData } from '../../../API';
-import { categories } from '../../../data';
-import CategoriesCard from './CategoriesCard';
+
 //
 const VitalBottomSheet = ({ data, selectCategory, accountType = null, hideBottomSheet = () => { } }) => {
     const [report, setReport] = useState([]);

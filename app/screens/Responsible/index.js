@@ -1,5 +1,5 @@
 //
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { responsibles } from '../../data';
 import Header from '../../components/Header';
 import { COLORS } from '../../theme/globalStyle';
@@ -8,6 +8,7 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { FlatList, Pressable, RefreshControl, SafeAreaView, StyleSheet, Text, View } from 'react-native';
 import { fetchGetAuthData } from '../../API';
 import { LoadingModal } from '../../components';
+import { useFocusEffect } from '@react-navigation/core';
 //
 const ResponsibleScreen = () => {
     const [loading, setLoading] = useState();
@@ -24,9 +25,9 @@ const ResponsibleScreen = () => {
         // setLoading(false);
     }
     //
-    useEffect(() => {
+    useFocusEffect(useCallback(() => {
         getUserInfoAsync();
-    }, []);
+    }, []))
     //
     return (
         <SafeAreaView style={styles.container}>
@@ -38,7 +39,7 @@ const ResponsibleScreen = () => {
                 showsVerticalScrollIndicator={false}
                 contentContainerStyle={styles.flatListCon}
                 refreshControl={<RefreshControl refreshing={refresh} onRefresh={getUserInfoAsync} />}
-                renderItem={({ item }) => <ResponsibleCard {...item} />}
+                renderItem={({ item }) => <ResponsibleCard {...item} reload={getUserInfoAsync} />}
                 ListHeaderComponent={() => <ListHeaderComponents showBottomForm={setAddResponsibleForm} />}
                 ListEmptyComponent={() => <ListEmptyComponents />}
             />
